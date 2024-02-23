@@ -91,8 +91,13 @@ struct UnorderedSet {
 
 PYBIND11_MODULE(cppstl, m) {
 
+// reserve and capacity are not exposed by default
+// we expose them here because they can still be useful
 #define EXPOSE(t) \
-    py::bind_vector< std::vector <t> >(m, "vector_" #t);
+    py::bind_vector<std::vector<t>>(m, "vector_" #t) \
+      .def("reserve",  &std::vector<t>::reserve,  "reserves storage") \
+      .def("capacity", &std::vector<t>::capacity, "returns the number of elements that can be held in currently allocated storage") \
+      ;
     EXPOSE_FOR_ALL
 #undef EXPOSE
 
