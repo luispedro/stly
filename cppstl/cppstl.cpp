@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include <map>
-#include <set>
+#include <unordered_set>
 
 namespace py = pybind11;
 using string = std::string;
@@ -64,10 +64,47 @@ EXPOSE_FOR_ALL
 EXPOSE2_FOR_ALL
 #undef EXPOSE2
 
+template <typename T>
+struct UnorderedSet {
+    std::unordered_set<T> raw_;
+    bool __contains__(T x) const {
+        return raw_.find(x) != raw_.end();
+    }
+    bool __bool__() const {
+        return !raw_.empty();
+    }
+    size_t __len__() const {
+        return raw_.size();
+    }
+    void insert(T x) {
+        raw_.insert(x);
+    }
+    void clear() {
+        raw_.clear();
+    }
+};
+
+#define EXPOSE(t) \
+    PYBIND11_MAKE_OPAQUE(UnorderedSet<t>);
+    EXPOSE_FOR_ALL
+#undef EXPOSE
+
 PYBIND11_MODULE(cppstl, m) {
 
 #define EXPOSE(t) \
     py::bind_vector< std::vector <t> >(m, "vector_" #t);
+    EXPOSE_FOR_ALL
+#undef EXPOSE
+
+#define EXPOSE(t) \
+    py::class_<UnorderedSet<t>>(m, "unordered_set_" #t) \
+        .def(py::init<>()) \
+        .def("clear", &UnorderedSet<t>::clear) \
+        .def("add", &UnorderedSet<t>::insert) \
+        .def("__contains__", &UnorderedSet<t>::__contains__) \
+        .def("__len__", &UnorderedSet<t>::__len__) \
+        .def("__bool__", &UnorderedSet<t>::__bool__) \
+        ;
     EXPOSE_FOR_ALL
 #undef EXPOSE
 
