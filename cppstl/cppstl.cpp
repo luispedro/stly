@@ -115,6 +115,7 @@ PYBIND11_MODULE(cppstl, m) {
         .def("__contains__", &UnorderedSet<t>::__contains__) \
         .def("__len__", &UnorderedSet<t>::__len__) \
         .def("__bool__", &UnorderedSet<t>::__bool__) \
+        .def("__iter__", [](const UnorderedSet<t> &s) { return py::make_iterator(s.raw_.begin(), s.raw_.end()); }, py::keep_alive<0, 1>()) \
         ;
     EXPOSE_FOR_ALL
 #undef EXPOSE

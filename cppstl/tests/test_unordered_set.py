@@ -5,18 +5,20 @@ def test_unordered_set_smoke():
             cppstl.unordered_set_uint32_t,
             cppstl.unordered_set_double,
             ]:
-        v = cl()
+        u = cl()
         for i in range(10):
-            v.add(i)
-        assert len(v) == 10
-        assert v
+            u.add(i)
+        assert len(u) == 10
+        assert u
+        assert len(list(u)) == 10
 
         for i in range(10):
-            assert i in v
-        assert 10 not in v
-        v.clear()
+            assert i in u
+        assert 10 not in u
+        u.clear()
         for i in range(10):
-            assert i not in v
-        assert len(v) == 0
-        assert not v
+            assert i not in u
+        assert len(u) == 0
+        assert not u
+
 
