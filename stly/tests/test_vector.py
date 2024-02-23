@@ -1,9 +1,9 @@
-import cppstl
+import stly
 
 def test_vector_smoke():
     for cl in [
-            cppstl.vector_uint32_t,
-            cppstl.vector_double,
+            stly.vector_uint32_t,
+            stly.vector_double,
             ]:
         v = cl()
         for i in range(10):
@@ -21,7 +21,7 @@ def test_vector_smoke():
 def test_np_conversion():
     import numpy as np
 
-    v = cppstl.vector_double()
+    v = stly.vector_double()
 
     for i in range(1024):
         v.append(i*i)

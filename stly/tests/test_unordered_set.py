@@ -1,9 +1,9 @@
-import cppstl
+import stly
 
 def test_unordered_set_smoke():
     for cl in [
-            cppstl.unordered_set_uint32_t,
-            cppstl.unordered_set_double,
+            stly.unordered_set_uint32_t,
+            stly.unordered_set_double,
             ]:
         u = cl()
         for i in range(10):
