@@ -8,7 +8,7 @@
 namespace py = pybind11;
 using string = std::string;
 
-#define EXPOSE_FOR_ALL \
+#define EXPOSE_FOR_ALL_NUMS \
     EXPOSE(  int8_t) \
     EXPOSE( uint8_t) \
     EXPOSE( int16_t) \
@@ -20,7 +20,9 @@ using string = std::string;
     \
     EXPOSE(float) \
     EXPOSE(double) \
-    \
+
+#define EXPOSE_FOR_ALL \
+    EXPOSE_FOR_ALL_NUMS \
     EXPOSE(string)
 
 #define EXPOSE2_FOR_ALL \
@@ -94,12 +96,16 @@ PYBIND11_MODULE(cppstl, m) {
 // reserve and capacity are not exposed by default
 // we expose them here because they can still be useful
 #define EXPOSE(t) \
-    py::bind_vector<std::vector<t>>(m, "vector_" #t) \
+    py::bind_vector<std::vector<t>>(m, "vector_" #t, py::buffer_protocol()) \
       .def("reserve",  &std::vector<t>::reserve,  "reserves storage") \
       .def("capacity", &std::vector<t>::capacity, "returns the number of elements that can be held in currently allocated storage") \
       ;
-    EXPOSE_FOR_ALL
+    EXPOSE_FOR_ALL_NUMS
 #undef EXPOSE
+    py::bind_vector<std::vector<std::string>>(m, "vector_string") \
+      .def("reserve",  &std::vector<std::string>::reserve,  "reserves storage") \
+      .def("capacity", &std::vector<std::string>::capacity, "returns the number of elements that can be held in currently allocated storage") \
+      ;
 
 #define EXPOSE(t) \
     py::class_<UnorderedSet<t>>(m, "unordered_set_" #t) \
