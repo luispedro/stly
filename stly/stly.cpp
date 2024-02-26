@@ -84,6 +84,9 @@ struct UnorderedSet {
     void clear() {
         raw_.clear();
     }
+    void reserve(size_t n) {
+        raw_.reserve(n);
+    }
 };
 
 #define EXPOSE(t) \
@@ -116,6 +119,8 @@ PYBIND11_MODULE(_stly, m) {
         .def("__len__", &UnorderedSet<t>::__len__) \
         .def("__bool__", &UnorderedSet<t>::__bool__) \
         .def("__iter__", [](const UnorderedSet<t> &s) { return py::make_iterator(s.raw_.begin(), s.raw_.end()); }, py::keep_alive<0, 1>()) \
+        .def("reserve", &UnorderedSet<t>::reserve) \
+        .def("capacity", [](const UnorderedSet<t> &s) { return s.raw_.bucket_count(); }) \
         ;
     EXPOSE_FOR_ALL
 #undef EXPOSE
