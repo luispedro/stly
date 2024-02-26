@@ -1,1 +1,1 @@
-from .stly import *
+from ._stly import *

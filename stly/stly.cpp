@@ -91,7 +91,7 @@ struct UnorderedSet {
     EXPOSE_FOR_ALL
 #undef EXPOSE
 
-PYBIND11_MODULE(stly, m) {
+PYBIND11_MODULE(_stly, m) {
 
 // reserve and capacity are not exposed by default
 // we expose them here because they can still be useful
