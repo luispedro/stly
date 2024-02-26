@@ -81,10 +81,17 @@ The following should work if you have installed `scikit-build`.
 pip install .
 ```
 
-**IMPORTANT**: As of Feb 2024, `stly` requires the `master` branch of `pybind11`!
+**IMPORTANT**: As of Feb 2024, `stly` requires the `master` branch of
+`pybind11` and this requires either a bit of hacking around or installing from
+github
 
 Note that compilation can be very slow due to the need to specialize all the
 types and conversions.
+
+### Notes on performance
+
+Compared to standard Python types, `stly` is significantly _slower_ but also
+uses significantly less memory.
 
 
 ### Author
